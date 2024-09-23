@@ -38,7 +38,7 @@ namespace Infrastructure.Repositories
         {
             var userTests = await _context.UserTests
                 .Include(x => x.User)
-                .Include(x => x.TrainingTest)
+                .Include(x => x.TrainingTest).ThenInclude(x=>x.TrainingTestOptions)
                 .Where(x => x.TrainingId == trainingId && x.Submitted)
                 .ToListAsync();
 
@@ -57,7 +57,12 @@ namespace Infrastructure.Repositories
                 var preTestScore = "";
                 if (preTests.Count > 0)
                 {
-                    var correctPreAnswers = preTests.Count(x => x.Answer == x.TrainingTest.CorrectAnswer);
+                    var correctPreAnswers = preTests.Count(x => x.Answer != null
+                       && x.TrainingTest?.TrainingTestOptions != null
+                       && x.TrainingTest.TrainingTestOptions.Any(opt => opt.CorrectAnswer == true && opt.Id == x.Answer));
+
+
+                    //var correctPreAnswers = preTests.Count(x => x.Answer == x.TrainingTest.CorrectAnswer);
                     double _preTestScore = (double)correctPreAnswers / preTests.Count * 100;
 
                     preTestScore = $"{_preTestScore:F0}%";
@@ -72,7 +77,10 @@ namespace Infrastructure.Repositories
                 var postTestScore = "";
                 if (postTests.Count > 0)
                 {
-                    var correctPostAnswers = postTests.Count(x => x.Answer == x.TrainingTest.CorrectAnswer);
+                    var correctPostAnswers = postTests.Count(x => x.Answer != null
+                       && x.TrainingTest?.TrainingTestOptions != null
+                       && x.TrainingTest.TrainingTestOptions.Any(opt => opt.CorrectAnswer == true && opt.Id == x.Answer));
+                    //var  = postTests.Count(x => x.Answer == x.TrainingTest.CorrectAnswer);
                    double _postTestScore = (double)correctPostAnswers / postTests.Count * 100;
 
                      postTestScore = $"{_postTestScore:F0}%";
