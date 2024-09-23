@@ -5,7 +5,6 @@ using Application.Commands.TrainingCommand;
 using Application.Queries.IdentityQueries;
 using Application.Queries.TrainingQueries;
 using Domain.Models;
-using Infrastructure.Migrations;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

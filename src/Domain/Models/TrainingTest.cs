@@ -13,7 +13,9 @@ namespace Domain.Models
         public TrainingTestType TrainingTestType { get; set; }
         public string Question { get; set; }
         public bool Publish { get; set; }
-        public int SortOrder { get; set; }
+        public int SortOrder { get; set; } 
         public int CorrectAnswer { get; set; }
+        public ICollection<TrainingTestOption> TrainingTestOptions { get; set; }
+
     }
 }

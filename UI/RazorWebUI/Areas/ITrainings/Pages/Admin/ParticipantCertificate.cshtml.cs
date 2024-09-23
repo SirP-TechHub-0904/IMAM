@@ -3,7 +3,6 @@ using Application.Queries.TrainingParticipantQueries;
 using Application.Queries.TrainingQueries;
 using Domain.DTOs;
 using Domain.Models;
-using Infrastructure.Migrations;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

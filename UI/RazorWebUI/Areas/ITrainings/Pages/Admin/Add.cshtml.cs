@@ -21,6 +21,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
 
         [BindProperty]
         public Training Training { get; set; }
+        public TrainingCategory TrainingCategory { get; set; }
 
         public async Task<IActionResult> OnGetAsync(long id)
         {
@@ -31,6 +32,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
             {
                 return RedirectToPage("./Index");
             }
+            TrainingCategory = result;
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()
@@ -40,7 +42,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
                 AddTrainingCommand Command = new AddTrainingCommand(Training);
                 await _mediator.Send(Command);
                 TempData["success"] = "Success";
-                return RedirectToPage("./Index");
+                return RedirectToPage("./Index", new {id = Training.TrainingCategoryId});
             }
             catch (Exception ex)
             {

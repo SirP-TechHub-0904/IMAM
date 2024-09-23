@@ -22,8 +22,8 @@ namespace Application.Queries.TrainingTestQueries
 
             public async Task<List<TrainingTest>> Handle(ListTrainingTestQuery request, CancellationToken cancellationToken)
             {
-                var list = await _repository.GetAllAsync();
-                return list.Where(x=>x.Publish == true).ToList();
+                var list = await _repository.GetAllTrainingTest();
+                return list;
             }
         }
     }

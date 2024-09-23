@@ -37,7 +37,9 @@ namespace Application.Commands.IdentityCommand
             {
                 throw new Exception($"Unable to load user with ID '{request.UserId}'.");
             }
-
+            //var USERSS = await _userManager.RemovePasswordAsync(user);
+            //await _userManager.AddPasswordAsync(user, request.NewPassword);
+            
             var result = await _userManager.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
 
             if (result.Succeeded)

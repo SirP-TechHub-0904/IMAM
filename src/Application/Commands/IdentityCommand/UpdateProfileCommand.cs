@@ -4,7 +4,6 @@ using Application.Queries.IdentityQueries;
 using AWS.Dto.AwsDtos;
 using AWS.Services;
 using Domain.Models;
-using Infrastructure.Migrations;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

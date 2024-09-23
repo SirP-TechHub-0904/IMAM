@@ -4,7 +4,6 @@ using Application.Queries.TrainingTestQueries;
 using Application.Queries.UserTestQueries;
 using Domain.DTOs;
 using Domain.Models;
-using Infrastructure.Migrations;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -2,8 +2,7 @@
 using Domain.Interfaces;
 using Domain.Models;
 using Infrastructure.Context;
-using Infrastructure.GenericRepository;
-using Infrastructure.Migrations;
+using Infrastructure.GenericRepository; 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;

@@ -68,10 +68,10 @@ namespace Application.Commands.EmailCommand
 </html>
 ";
             emailTemplate = emailTemplate.Replace("//CompanyName//", "IMAM Training");
-            emailTemplate = emailTemplate.Replace("//YOUR_LOGO_URL//", "https://miycnportal.ng/img/miycn-logo-x2.png");
+            emailTemplate = emailTemplate.Replace("//YOUR_LOGO_URL//", "https://imamportal.ng/img/imam-logo-x2.png");
             emailTemplate = emailTemplate.Replace("//Subject//", request.Message.Subject.Replace("\r\n", ""));
             emailTemplate = emailTemplate.Replace("//Body//", request.Message.Message);
-            emailTemplate = emailTemplate.Replace("//CompanyEmail//", "admin@miycnportal.com");
+            emailTemplate = emailTemplate.Replace("//CompanyEmail//", "admin@imamportal.com");
             emailTemplate = emailTemplate.Replace("//Date//", DateTime.UtcNow.Year.ToString());
             emailTemplate = emailTemplate.Replace("//Recipient_Name//", request.Message.Name);
 
@@ -79,15 +79,15 @@ namespace Application.Commands.EmailCommand
             PostmarkResponse response = new PostmarkResponse();
             var message = new PostmarkMessage
             {
-                From = "training@miycnportal.ng",
+                From = "admin@imamportal.ng",
                 //From = "help@koboview.com",
                 To = request.Message.Email,
                 Subject = request.Message.Subject,
                 HtmlBody = emailTemplate
             };
-            return null;
+            //return null;
 
-            //return await _postmarkService.SendMessageAsync(message);
+            return await _postmarkService.SendMessageAsync(message);
         }
     }
 }

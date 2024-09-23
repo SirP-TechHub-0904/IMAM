@@ -1120,6 +1120,34 @@ namespace Infrastructure.Migrations
                     b.ToTable("TrainingTests");
                 });
 
+            modelBuilder.Entity("Domain.Models.TrainingTestOption", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<bool>("CorrectAnswer")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Option")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("TrainingTestId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TrainingTestId");
+
+                    b.ToTable("TrainingTestOption");
+                });
+
             modelBuilder.Entity("Domain.Models.UserTest", b =>
                 {
                     b.Property<long>("Id")
@@ -1519,6 +1547,15 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Domain.Models.TrainingTestOption", b =>
+                {
+                    b.HasOne("Domain.Models.TrainingTest", "TrainingTest")
+                        .WithMany("TrainingTestOptions")
+                        .HasForeignKey("TrainingTestId");
+
+                    b.Navigation("TrainingTest");
+                });
+
             modelBuilder.Entity("Domain.Models.UserTest", b =>
                 {
                     b.HasOne("Domain.Models.Training", "Training")
@@ -1631,6 +1668,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Models.TrainingCategory", b =>
                 {
                     b.Navigation("Training");
+                });
+
+            modelBuilder.Entity("Domain.Models.TrainingTest", b =>
+                {
+                    b.Navigation("TrainingTestOptions");
                 });
 #pragma warning restore 612, 618
         }

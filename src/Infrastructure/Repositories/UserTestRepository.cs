@@ -2,8 +2,7 @@
 using Domain.Interfaces;
 using Domain.Models;
 using Infrastructure.Context;
-using Infrastructure.GenericRepository;
-using Infrastructure.Migrations;
+using Infrastructure.GenericRepository; 
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -104,7 +103,7 @@ namespace Infrastructure.Repositories
             TrainingTestType status = (TrainingTestType)Enum.ToObject(typeof(TrainingTestType), testType);
             UserTestResultDto result = new UserTestResultDto();
              var userresult = await _context.UserTests
-                .Include(x=>x.TrainingTest)
+                .Include(x=>x.TrainingTest).ThenInclude(x=>x.TrainingTestOptions)
                 .Where(x=>x.TrainingId == trainingId&& x.UserId == userId && x.TrainingTest.TrainingTestType == status).ToListAsync();
 
             result.UserTest = userresult;
@@ -112,7 +111,9 @@ namespace Infrastructure.Repositories
             if (userresult.Count > 0)
             {
                 int totalQuestions = userresult.Count;
-                int correctAnswers = userresult.Count(x => x.Answer == x.TrainingTest.CorrectAnswer);
+                int correctAnswers = userresult.Count(x => x.Answer != null
+                       && x.TrainingTest?.TrainingTestOptions != null
+                       && x.TrainingTest.TrainingTestOptions.Any(opt => opt.CorrectAnswer == true && opt.Id == x.Answer));
 
                 double percentage = (double)correctAnswers / totalQuestions * 100;
                 string scorePercent = $"{percentage:F0}%";

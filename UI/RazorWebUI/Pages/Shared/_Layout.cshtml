@@ -10,8 +10,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <title>IMAM Portal | Maternal Infant and Young Child Nutrition</title>
-    <link rel="icon" href="~/img/icon.jpg" type="image/x-icon" />
+    <title>IMAM Portal | Integrated Management of Acute Malnutrition</title>
+    <link rel="icon" href="~/img/icon.png" type="image/x-icon" />
 
     <style>
         @@font-face {
@@ -84,13 +84,13 @@
 
         .logo-wrapper img {
             display: block;
-            height: 2.5rem;
+            height: auto;
             margin: 0 auto;
-            width: auto;
+            width: 100%;
         }
 
         .hero-banner .hero-image {
-            background-image: url(https://assets.codepen.io/6060109/athlete-girl.png);
+            background-image: url(../../img/bg-one.jpg);
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
@@ -108,7 +108,7 @@
         }
 
             .text-info > * {
-                padding: 0 2.5rem 1rem;
+                /*padding: 0 2.5rem 1rem;*/
             }
 
             /* intended for the first h2 within .text-info */
@@ -195,7 +195,7 @@
             }
 
             .hero-banner .logo-wrapper {
-                margin-left: 3.5rem;
+                margin-left:0;
                 width: 100%;
                 display: flex;
                 align-items: start;
@@ -204,7 +204,7 @@
 
             .logo-wrapper img {
                 margin: 0 0 0;
-                padding-left: 2.5rem;
+                padding-left: 0;
             }
 
             .hero-image {
@@ -258,22 +258,28 @@
         <header>
             <section class="hero-banner">
                 <div class="logo-wrapper">
-                    <img src="" alt="IMAM logo.">
+                    <img src="~/img/IMAM-Logo-With-Bckground.png" alt="IMAM logo">
                 </div>
+
                 <div class="hero-image"></div>
+                <article class="text-info">
+                    <h1 style="font-size:35px;font-weight:900;">
+                        Integrated Management of Acute Malnutrition Portal
+                    </h1>
+                    <p>
+                        Welcome to the IMAM Portal, your comprehensive resource for managing and facilitating IMAM programs across multiple states. Here, we streamline the training processes, share best practices, and empower professionals to effectively combat acute malnutrition in communities.
+                    </p>
+                    <a asp-page="/Account/Login" asp-area="Identity" class="btn btn-primary" style="width:100%;">Access Portal</a>
+                </article>
+
             </section>
         </header>
         <main>
-            <article class="text-info">
-                <h2>Welcome To</h2>
-                <h2>IMMA</h2>
-                <p>Hello friends! We are currently building our new sports and comfort clothing store. Add your email address below to stay up-to-date with announcements and our launch proposals.</p>
-                <a asp-page="/Account/Login" asp-area="Identity" class="email-button">Access Portal</a>
-            </article>
+          
         </main>
     </div>
     <div class="hero-image-desktop">
-        <img src="https://assets.codepen.io/6060109/athlete-big.png" alt="IMAM">
+        <img src="~/img/bg-one.jpg" alt="IMAM">
     </div>
 </body>
 </html>

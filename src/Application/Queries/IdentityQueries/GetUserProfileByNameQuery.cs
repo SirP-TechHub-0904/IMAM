@@ -98,7 +98,7 @@ namespace Application.Queries.IdentityQueries
             string userinfo = "";
             try
             {
-                infoModel.ProfileLink = "https://miycnportal.com/vrxy/" + UserDatas.UniqueId;
+                infoModel.ProfileLink = "https://imamportal.com/vrxy/" + UserDatas.UniqueId;
                 System.Drawing.Image img = barcode.Draw(infoModel.ProfileLink, 100);
 
                 infoModel.BarcodeImage = AppServices.TurnImageToByteArray(img);

@@ -66,7 +66,7 @@ namespace Application.Commands.TrainingCommand
 
 
 
-                    string baseUrl = "https://miycnportal.ng/"; // replace with your application base URL
+                    string baseUrl = "https://imamportal.ng/"; // replace with your application base URL
                     string relativeUrl = "/Identity/Account/Login";
                     Uri baseUri = new Uri(baseUrl);
                     Uri loginUri = new Uri(baseUri, relativeUrl);

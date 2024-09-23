@@ -48,6 +48,7 @@ namespace Application.Extensions
             services.AddTransient<ICertificateRepository, CertificateRepository>();
             services.AddTransient<ISettingRepository, SettingRepository>();
             services.AddTransient<ITrainingTestRepository, TrainingTestRepository>();
+            services.AddTransient<ITrainingTestOptionRepository, TrainingTestOptionRepository>();
             services.AddTransient<IUserTestRepository, UserTestRepository>();
             services.AddTransient<IEvaluationQuestionRepository, EvaluationQuestionRepository>();
             services.AddTransient<IDialyUserEvaluationRepository, DialyUserEvaluationRepository>();

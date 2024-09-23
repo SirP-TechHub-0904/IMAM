@@ -1,5 +1,6 @@
 using Application.Queries.IdentityQueries;
 using Application.Queries.TrainingQueries;
+using Application.Queries.TrainingTestOptionQueries;
 using Application.Queries.UserTestQueries;
 using Domain.DTOs;
 using Domain.Models;
@@ -27,7 +28,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Account
         public TrainingDto Training { get; set; }
         public string Title { get; set; }
         public string Instruction { get; set; }
-
+        public IList<TrainingTestOption> TrainingTestOptionLists { get; set; }
         public BasicProfileDto BasicProfileDto { get; set; }
         public async Task<IActionResult> OnGetAsync(long tid, string userId, int xty)
         {
@@ -75,6 +76,9 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Account
                 Instruction = Training.PostTestInstruction;
 
             }
+
+            ListTrainingTestOptionQuery TestCommand = new ListTrainingTestOptionQuery();
+            TrainingTestOptionLists = await _mediator.Send(TestCommand);
             return Page();
         }
     }

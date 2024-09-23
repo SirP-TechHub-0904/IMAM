@@ -88,42 +88,31 @@
 
                                 </td>
                                 <td>
-                                    @if (item.Answer == 1)
-                                    {
-                                        <span>Yes</span>
-                                    }
-                                    else if (item.Answer == 2)
-                                    {
-                                        <span>No</span>
-                                    }
-                                    else if (item.Answer == 3)
-                                    {
-                                        <span>I Don't Know</span>
+                                    @{
+                                        // Get user's selected answer
+                                        var myanswer = Model.TrainingTestOptionLists.FirstOrDefault(x => x.Id == item.Answer);
                                     }
 
-                                    @if (item.Answer == item.TrainingTest.CorrectAnswer)
-                                    {
-                                        <span><i class="fa fa-check" style="color:green;"></i></span>
-                                    }
-                                    else
-                                    {
-                                        <span><i class="fa fa-times" style="color:red;"></i></span>
+                                    <span>@myanswer?.Option</span> <!-- Safe navigation with ?. for null check -->
 
-                                        @if (item.TrainingTest.CorrectAnswer == 1)
+                                    @if (myanswer != null && item.TrainingTest?.TrainingTestOptions != null)
+                                    {
+                                        // Find the correct answer
+                                        var correctAnswer = item.TrainingTest.TrainingTestOptions.FirstOrDefault(x => x.CorrectAnswer == true);
+
+                                        if (correctAnswer != null && correctAnswer.Id == myanswer.Id)
                                         {
-                                            <span>(Yes)</span>
+                                            <span><i class="fa fa-check" style="color:green;"></i></span>
                                         }
-                                        else if (item.TrainingTest.CorrectAnswer == 2)
+                                        else
                                         {
-                                            <span>(No)</span>
+                                            <span><i class="fa fa-times" style="color:red;"></i></span>
+
+                                            @if (correctAnswer != null)
+                                            {
+                                                <i style="font-weight: 800; display: block; margin-top: 5px;">(@correctAnswer.Option)</i> <!-- Show the correct answer if available -->
+                                            }
                                         }
-                                        else if (item.TrainingTest.CorrectAnswer == 3)
-                                        {
-                                <span>(I Don't know)</span>
-                                        }
-
-
-
                                     }
 
 

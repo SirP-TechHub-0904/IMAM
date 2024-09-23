@@ -1,8 +1,7 @@
 ﻿using Domain.Interfaces;
 using Domain.Models;
 using Infrastructure.Context;
-using Infrastructure.GenericRepository;
-using Infrastructure.Migrations;
+using Infrastructure.GenericRepository; 
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

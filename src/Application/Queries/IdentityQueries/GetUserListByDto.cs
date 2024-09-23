@@ -26,7 +26,7 @@ namespace Application.Queries.IdentityQueries
         public async Task<IEnumerable<ProfileDto>> Handle(GetUserListByDto request, CancellationToken cancellationToken)
         {
             var UserDatas = _userManager.Users
-                .Where(x => x.Email != "universaadmin@miycn.ng" && x.Email != "jinmcever@miycn.ng")
+                .Where(x => x.Email != "universaadmin@imam.ng" && x.Email != "jinmcever@imam.ng")
                 .AsEnumerable();
 
             var UserDatasList = UserDatas.Select(x => new ProfileDto

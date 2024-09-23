@@ -27,7 +27,6 @@
                                 Question
                             </th>
 
-                            <th>Correct Answer</th>
                             <th>Publish</th>
                             <th>Type</th>
 
@@ -57,22 +56,7 @@
 
                                     </a>
                                 </td>
-                                <td>
-                                    @if (item.CorrectAnswer == 1)
-                                    {
-                                        <span>Yes</span>
-                                    }
-                                    else if (item.CorrectAnswer == 2)
-                                    {
-                                        <span>No</span>
-                                    }
-                                    else if (item.CorrectAnswer == 3)
-                                    {
-                                        <span>I Don't Know</span>
-                                    }
 
-                                     
-                                </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Publish)
                                 </td>
@@ -82,10 +66,30 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.SortOrder)
                                 </td>
-
-
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="4">
+                                    <a asp-page="./AddOption" asp-route-id="@item.Id">Add Option</a>
+                                    <table>
+                                        <tr>
+                                            <th>Order</th>
+                                            <th>Option</th>
+                                            <th>Correct Answer</th>
+                                        </tr>
+                                        @foreach (var list in item.TrainingTestOptions)
+                                        {
+                                            <tr>
+                                                <td>@list.SortOrder</td>
+                                                <td><a asp-page="./UpdateOption" asp-route-id="@list.Id">@list.Option</a></td>
+                                                <td>@list.CorrectAnswer @if(list.CorrectAnswer == true){ <span><i class="fas fa-check" style="color:green;"></i></span>}</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </td> 
 
                             </tr>
+                           
                         }
                     </tbody>
                 </table>
@@ -105,8 +109,7 @@
                             <th>S/N</th>
                             <th>
                                 Question
-                            </th>
-                            <th>Correct Answer</th>
+                            </th> 
                             <th>Publish</th>
                             <th>Type</th>
 
@@ -136,20 +139,7 @@
 
                                     </a>
                                 </td>
-                                <td>
-                                    @if (item.CorrectAnswer == 1)
-                                    {
-                                        <span>Yes</span>
-                                    }
-                                    else if (item.CorrectAnswer == 2)
-                                    {
-                                        <span>No</span>
-                                    }
-                                    else if (item.CorrectAnswer == 3)
-                                    {
-                                        <span>I Don't Know</span>
-                                    }
-                                </td>
+                               
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Publish)
                                 </td>

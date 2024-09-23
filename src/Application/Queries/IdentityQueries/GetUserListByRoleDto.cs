@@ -34,7 +34,7 @@ namespace Application.Queries.IdentityQueries
 
 
             //    var UserDatas = _userManager.Users
-            //.Where(x => x.Email != "universaadmin@miycn.ng" && x.Email != "jinmcever@miycn.ng")
+            //.Where(x => x.Email != "universaadmin@imam.ng" && x.Email != "jinmcever@imam.ng")
             //.AsEnumerable()
             //.Where(x => x.Role.Contains(request.Role))
             //.ToList();
@@ -50,7 +50,7 @@ namespace Application.Queries.IdentityQueries
             //    });
 
             var UserDatas = _userManager.Users
-    .Where(x => x.Email != "universaadmin@miycn.ng" && x.Email != "jinmcever@miycn.ng")
+    .Where(x => x.Email != "universaadmin@imam.ng" && x.Email != "jinmcever@imam.ng")
     .AsEnumerable()
     .Where(x => x.Role != null && x.Role.Contains(request.Role))
     .ToList();

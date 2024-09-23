@@ -15,15 +15,17 @@
 
             @if (User.IsInRole("Admin") || User.IsInRole("mSuperAdmin"))
             {
-                <a asp-page="./Add" class="btn bg-primary btn-sm" style="float:right;">Register New Training</a>
-                <a asp-page="/Admin/ReportByCategory" asp-route-id="@Model.TrainingCategory.Id" class="btn bg-gradient-danger btn-sm" style="float:right;">Comprehensive Report</a>
-
-                <a asp-page="./TrainingReport" class="btn bg-gradient-warning btn-sm" style="float:right;">Participant and Facilitators By State</a>
-                <a asp-page="./FacilitatorPrint" class="btn bg-gradient-warning btn-sm" style="float:right;">All Facilitators</a>
-                <a asp-page="./PrintParticipants" class="btn bg-gradient-warning btn-sm" style="float:right;">All Participants</a>
-                <a asp-page="./TrainingStatistics" class="btn bg-gradient-warning btn-sm" style="float:right;">Training Statistics</a>
-            }
-        </div>
+                @if (Model.TrainingCategory != null)
+                {
+                    <a asp-page="./Add" asp-route-id="@Model.TrainingCategory.Id" class="btn bg-primary btn-sm" style="float:right;">Register New Training</a>
+                    <a asp-page="/Admin/ReportByCategory" asp-route-id="@Model.TrainingCategory.Id" class="btn bg-gradient-danger btn-sm" style="float:right;">Comprehensive Report</a>
+                }
+                    <a asp-page="./TrainingReport" class="btn bg-gradient-warning btn-sm" style="float:right;">Participant and Facilitators By State</a>
+                    <a asp-page="./FacilitatorPrint" class="btn bg-gradient-warning btn-sm" style="float:right;">All Facilitators</a>
+                    <a asp-page="./PrintParticipants" class="btn bg-gradient-warning btn-sm" style="float:right;">All Participants</a>
+                    <a asp-page="./TrainingStatistics" class="btn bg-gradient-warning btn-sm" style="float:right;">Training Statistics</a>
+                }
+            </div>
         <!-- /.card-header -->
         <div class="card-body">
             <div class="table-responsive">

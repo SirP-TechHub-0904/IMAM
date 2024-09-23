@@ -1,0 +1,49 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.TestQuestions.AddOptionModel
+@{
+}
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">ADD OPTIONS FOR QUESTION (@Model.TrainingTest.Question)</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="TrainingTestOption.TrainingTestId" value="@Model.TrainingTest.Id" />
+                    <div class="form-group">
+                        <label asp-for="TrainingTestOption.Option" class="control-label"></label>
+                        <textarea asp-for="TrainingTestOption.Option" class="form-control"></textarea>
+                        <span asp-validation-for="TrainingTestOption.Option" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="TrainingTestOption.CorrectAnswer" class="control-label"></label>
+                        <input asp-for="TrainingTestOption.CorrectAnswer" />
+                        <span asp-validation-for="TrainingTestOption.CorrectAnswer" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="TrainingTestOption.SortOrder" class="control-label"></label>
+                        <input asp-for="TrainingTestOption.SortOrder" class="form-control" />
+                        <span asp-validation-for="TrainingTestOption.SortOrder" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Add Option" class="btn btn-primary" />
+                        <a asp-page="./Index" class="btn bg-gradient-warning btn-sm" style="float:right;">Back</a>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- /.row -->
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+    </div>
+</div>

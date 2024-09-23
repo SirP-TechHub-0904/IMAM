@@ -63,12 +63,13 @@ namespace Application.Commands.IdentityCommand
             {
                 regResponse.UserId = checkUserExist.Id;
                 regResponse.Role = checkUserExist.Role;
-                if(regResponse.Role != null) { 
-                regResponse.Success = true;
+                if (regResponse.Role != null)
+                {
+                    regResponse.Success = true;
                 }
                 return regResponse;
             }
-            
+
             try
             {
                 var user = new AppUser
@@ -111,8 +112,8 @@ namespace Application.Commands.IdentityCommand
                 if (result.Succeeded)
                 {
                     regResponse.UserId = user.Id;
-                    
-                    
+
+
 
                     //
                     AppRole Managerf = new AppRole
@@ -120,13 +121,14 @@ namespace Application.Commands.IdentityCommand
                         Name = request.Role,
                         Description = "Description for the new role" // You can set this to any value you want
                     };
-                    //var checkManagerf = await _role.FindByNameAsync(request.Role);
+                    try { 
+                    var checkManagerf = await _role.FindByNameAsync(request.Role);
 
-                    //if (checkManagerf == null)
-                    //{
-                    //   // await _role.CreateAsync(Managerf);
-                    //}
-
+                    if (checkManagerf == null)
+                    {
+                        await _role.CreateAsync(Managerf);
+                    }
+                    }catch (Exception ex) { }
                     var addrole = await _userManager.AddToRoleAsync(user, request.Role);
                     if (addrole.Succeeded)
                     {
@@ -152,7 +154,7 @@ namespace Application.Commands.IdentityCommand
                     var getUserForUpdate = await _userManager.FindByIdAsync(user.Id);
                     //try
                     //{
-                    //    string baseUrl = "https://miycnportal.ng/"; // replace with your application base URL
+                    //    string baseUrl = "https://imamportal.ng/"; // replace with your application base URL
                     //    string relativeUrl = "/Identity/Account/Login";
                     //    Uri baseUri = new Uri(baseUrl);
                     //    Uri loginUri = new Uri(baseUri, relativeUrl);
@@ -201,7 +203,7 @@ namespace Application.Commands.IdentityCommand
 
                     await _userManager.UpdateAsync(user);
                     regResponse.Message = "Registration Successfull";
-                   
+
                     return regResponse;
                 }
             }

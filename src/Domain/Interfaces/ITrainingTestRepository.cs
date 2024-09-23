@@ -10,5 +10,6 @@ namespace Domain.Interfaces
 {
     public interface ITrainingTestRepository : IRepository<TrainingTest>
     {
+        Task<List<TrainingTest>> GetAllTrainingTest();
     }
 }
