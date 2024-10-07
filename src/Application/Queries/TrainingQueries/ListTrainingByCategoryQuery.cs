@@ -14,11 +14,12 @@ namespace Application.Queries.TrainingQueries
 
         public string State { get; set; }
         public long Id { get; set; }
-
-        public ListTrainingByCategoryQuery(string state, long id)
+        public string StateUserId { get; set; }
+        public ListTrainingByCategoryQuery(string state, long id, string stateUserId)
         {
             State = state;
             Id = id;
+            StateUserId = stateUserId;
         }
 
         public class ListTrainingByCategoryQueryHandler : IRequestHandler<ListTrainingByCategoryQuery, List<Training>>
@@ -32,7 +33,7 @@ namespace Application.Queries.TrainingQueries
 
             public async Task<List<Training>> Handle(ListTrainingByCategoryQuery request, CancellationToken cancellationToken)
             {
-                return await _repository.GetAllByCategoryId(request.State, request.Id);
+                return await _repository.GetAllByCategoryId(request.State, request.Id, request.StateUserId);
 
             }
         }

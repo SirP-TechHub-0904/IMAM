@@ -40,6 +40,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             string state = "";
+            string stateUserId = null;
             var usercommand = new GetUserByIdQuery(userId);
             var userinfo = await _mediator.Send(usercommand);
             if(userinfo != null)
@@ -50,7 +51,11 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
             {
                 state = "all";
             }
-            var query = new ListTrainingByCategoryQuery(state, id);
+            if (User.IsInRole("TrainingAdmin"))
+            {
+                stateUserId = userinfo.Id;
+            }
+            var query = new ListTrainingByCategoryQuery(state, id, stateUserId);
             Datas = await _mediator.Send(query);
         }
 

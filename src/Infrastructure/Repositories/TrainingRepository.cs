@@ -30,10 +30,11 @@ namespace Infrastructure.Repositories
 
             return trainings;
         }
-        public async Task<List<Training>> GetAllByCategoryId(string? state, long id = 0)
+        public async Task<List<Training>> GetAllByCategoryId(string? state, long id = 0, string stateUserId = null)
         {
             var trainings = await _context.Trainings
                 .Include(x => x.TrainingCategory)
+                .Include(x => x.TrainingFacilitators)
 
                 .ToListAsync();
             if (id > 0)
@@ -54,6 +55,11 @@ namespace Infrastructure.Repositories
                 {
                     trainings = trainings.Where(x => x.State.ToLower() == "").ToList();
                 }
+               if (!string.IsNullOrEmpty(stateUserId))
+                {
+                    trainings = trainings.Where(x => x.TrainingFacilitators.Any(f => f.UserId == stateUserId)).ToList();
+                }
+
             }
             return trainings;
         }

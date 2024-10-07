@@ -17,7 +17,7 @@ namespace Domain.Interfaces
         Task<List<Training>> GetAll(string? state);
         Task<IQueryable<Training>> GetAllTrainingWithDetails();
         Task RemoveTraining(long id);
-        Task<List<Training>> GetAllByCategoryId(string? state, long id = 0);
+        Task<List<Training>> GetAllByCategoryId(string? state, long id = 0, string stateUserId = null);
         Task<List<TrainingDto>> GetTrainingByReportList();
     }
 }
