@@ -112,7 +112,19 @@ namespace RazorWebUI.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl)
         {
-             var user = await _userManager.FindByEmailAsync(Input.Email);
+
+            ////////var userlist = await _userManager.Users.ToListAsync();
+            ////////foreach(var item in userlist)
+            ////////{
+            ////////    if(item.Email != item.UserName)
+            ////////    {
+            ////////        item.UserName = item.Email;
+            ////////        await _userManager.UpdateAsync(item);
+            ////////    }
+            ////////}
+
+
+             var user = await _userManager.FindByEmailAsync(Input.Email); 
             if (user != null)
             {
 
