@@ -124,7 +124,8 @@ namespace RazorWebUI.Areas.Identity.Pages.Account
             ////////}
 
 
-             var user = await _userManager.FindByEmailAsync(Input.Email); 
+             var xxuser = await _userManager.FindByNameAsync(Input.Email); 
+             var user = await _userManager.FindByEmailAsync(Input.Email);
             if (user != null)
             {
 

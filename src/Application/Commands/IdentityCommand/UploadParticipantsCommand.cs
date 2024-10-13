@@ -76,22 +76,24 @@ namespace Application.Commands.IdentityCommand
                                     {
                                         if (emailList.Role != null)
                                         {
-                                            if(emailList.Role == "Participant" || emailList.Role == "Facilitator") { 
-                                            string cleanFullName = Regex.Replace(emailList.Name, @"[^\w\s]", "");
+                                            //if(emailList.Role == "Participant" || emailList.Role == "Facilitator")
+                                            if (emailList.Role.Contains("Participant") || emailList.Role.Contains("Facilitator"))
+                                            {
+                                                string cleanFullName = Regex.Replace(emailList.Name, @"[^\w\s]", "");
 
-                                            // Split the cleaned full name into words
-                                            string[] nameParts = cleanFullName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                                // Split the cleaned full name into words
+                                                string[] nameParts = cleanFullName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                            // Assign the first three names to the model
-                                            fillregdto.FirstName = nameParts.Length > 0 ? nameParts[0] : string.Empty;
-                                            fillregdto.MiddleName = nameParts.Length > 1 ? nameParts[1] : string.Empty;
-                                            fillregdto.LastName = nameParts.Length > 2 ? nameParts[2] : string.Empty;
-                                            fillregdto.PlaceOfWork = emailList.Office;
-                                            fillregdto.Email = emailList.Email.Trim().Replace(" ", "");
-                                            fillregdto.Phone = emailList.Phone.Trim().Replace(" ", string.Empty);
-                                            fillregdto.Position = emailList.Role;
+                                                // Assign the first three names to the model
+                                                fillregdto.FirstName = nameParts.Length > 0 ? nameParts[0] : string.Empty;
+                                                fillregdto.MiddleName = nameParts.Length > 1 ? nameParts[1] : string.Empty;
+                                                fillregdto.LastName = nameParts.Length > 2 ? nameParts[2] : string.Empty;
+                                                fillregdto.PlaceOfWork = emailList.Office;
+                                                fillregdto.Email = emailList.Email.Trim().Replace(" ", "");
+                                                fillregdto.Phone = emailList.Phone.Trim().Replace(" ", string.Empty);
+                                                fillregdto.Position = emailList.Role;
 
-                                            registerDto.Add(fillregdto);
+                                                registerDto.Add(fillregdto);
                                             }
                                         }
                                     }
