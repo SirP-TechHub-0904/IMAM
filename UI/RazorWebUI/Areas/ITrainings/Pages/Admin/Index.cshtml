@@ -13,6 +13,9 @@
                 </span>} (@Model.Datas.Count())
             </h3>
 
+
+        </div>
+        <div class="card-header">
             @if (User.IsInRole("Admin") || User.IsInRole("mSuperAdmin"))
             {
                 @if (Model.TrainingCategory != null)
@@ -20,12 +23,27 @@
                     <a asp-page="./Add" asp-route-id="@Model.TrainingCategory.Id" class="btn bg-primary btn-sm" style="float:right;">Register New Training</a>
                     <a asp-page="/Admin/ReportByCategory" asp-route-id="@Model.TrainingCategory.Id" class="btn bg-gradient-danger btn-sm" style="float:right;">Comprehensive Report</a>
                 }
-                    <a asp-page="./TrainingReport" class="btn bg-gradient-warning btn-sm" style="float:right;">Participant and Facilitators By State</a>
-                    <a asp-page="./FacilitatorPrint" class="btn bg-gradient-warning btn-sm" style="float:right;">All Facilitators</a>
-                    <a asp-page="./PrintParticipants" class="btn bg-gradient-warning btn-sm" style="float:right;">All Participants</a>
-                    <a asp-page="./TrainingStatistics" class="btn bg-gradient-warning btn-sm" style="float:right;">Training Statistics</a>
-                }
+                <a asp-page="./TrainingReport" class="btn bg-gradient-warning btn-sm" style="float:right;">Participant and Facilitators By State</a>
+                <a asp-page="./FacilitatorPrint" class="btn bg-gradient-warning btn-sm" style="float:right;">All Facilitators</a>
+                <a asp-page="./PrintParticipants" class="btn bg-gradient-warning btn-sm" style="float:right;">All Participants</a>
+                <a asp-page="./TrainingStatistics" class="btn bg-gradient-warning btn-sm" style="float:right;">Training Statistics</a>
+            }
+        </div>
+        <div class="card-header">
+            @foreach (var stateGroup in Model.StateGroups)
+            {
+                <a class="btn btn-primary" asp-page="./Index" asp-route-activestate="@stateGroup.State" asp-route-id="@Model.TrainingCategory.Id">
+                    @stateGroup.State (@stateGroup.Count)
+                </a>
+            }
+        </div>
+        @if (Model.StateName != null)
+        {<div class="card-header">
+                <h3 class="card-title">
+                    @Model.StateName STATE
+                </h3>
             </div>
+        }
         <!-- /.card-header -->
         <div class="card-body">
             <div class="table-responsive">

@@ -5,6 +5,8 @@ using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.IdentityModel.Tokens;
+using System.Linq;
 using System.Security.Claims;
 
 namespace RazorWebUI.Areas.ITrainings.Pages.Admin
@@ -24,8 +26,9 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
         }
         public TrainingCategory TrainingCategory { get; set; }
         public IEnumerable<Training> Datas { get; private set; }
-
-        public async Task OnGetAsync(long id)
+        public List<StateGroup> StateGroups { get; set; }
+        public string? StateName { get; set; }
+        public async Task OnGetAsync(long id, string activestate = "")
         {
             var getTrainingCategory = new GetByIdTrainingCategoryQuery(id);
             var result = await _mediator.Send(getTrainingCategory);
@@ -56,8 +59,27 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
                 stateUserId = userinfo.Id;
             }
             var query = new ListTrainingByCategoryQuery(state, id, stateUserId);
-            Datas = await _mediator.Send(query);
+           var activeDatas = await _mediator.Send(query);
+
+            if (!activestate.IsNullOrEmpty())
+            {
+                Datas = activeDatas.Where(x=>x.State == activestate);
+                StateName = activestate;
+            }
+            else { 
+            Datas = activeDatas;
+            }
+            // Group data by state
+            StateGroups = activeDatas.GroupBy(x => x.State)
+                               .Select(g => new StateGroup { State = g.Key, Count = g.Count() })
+                               .ToList();
         }
 
+    }
+    // Model to hold grouped data
+    public class StateGroup
+    {
+        public string State { get; set; }
+        public int Count { get; set; }
     }
 }
