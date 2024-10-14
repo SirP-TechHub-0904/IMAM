@@ -39,7 +39,7 @@ namespace RazorWebUI.Areas.ITrainings.Pages.Admin
             Training = await _mediator.Send(Command);
 
             //
-            IEnumerable<string> roles = new List<string> { "Facilitator", "Staff" };
+            IEnumerable<string> roles = new List<string> { "Facilitator", "Staff", "StateAdmin", "TrainingAdmin" };
             GetUserListByRoleListDto getflist = new GetUserListByRoleListDto(roles);
             var listfacilitators = await _mediator.Send(getflist);
 
