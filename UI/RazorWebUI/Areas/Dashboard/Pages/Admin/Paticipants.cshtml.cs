@@ -1,3 +1,6 @@
+using Application.Queries.TrainingCategoryQueries;
+using Humanizer;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,15 +13,24 @@ namespace RazorWebUI.Areas.Dashboard.Pages.Admin
         public string DataColor { get; set; }
         public int DataCount { get; set; }
         public string DataTitle { get; set; }
+
+        // Add these properties for the category and training counts
+        public int CategoryCount { get; set; } // Number of training categories
+        public int TrainingCount { get; set; } // Number of trainings
     }
 
 
 
     public class StateModel : PageModel
     {
+        private readonly IMediator _mediator; // Inject mediator or service to fetch data
+        public StateModel(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
         public List<DataDto> DataListDto { get; set; }
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
             DataListDto = new List<DataDto>
     {
@@ -62,6 +74,23 @@ namespace RazorWebUI.Areas.Dashboard.Pages.Admin
 
             };
 
+
+
+            // Fetch training data grouped by state
+            var query = new ListTrainingCategoryQuery();
+            var trainingCategories = await _mediator.Send(query);
+
+            // Map the training data into the DataDto list
+            foreach (var dto in DataListDto)
+            {
+                // Count the number of categories and trainings for each state
+                var categoriesForState = trainingCategories
+                    .Where(tc => tc.Training.Any(t => t.State == dto.DataTitle))
+                    .ToList();
+
+                dto.CategoryCount = categoriesForState.Count;
+                dto.TrainingCount = categoriesForState.Sum(tc => tc.Training.Count(t => t.State == dto.DataTitle));
+            }
         }
     }
 }

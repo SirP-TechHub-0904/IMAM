@@ -16,16 +16,20 @@
 
             @foreach (var data in Model.DataListDto)
             {
+
+
                 <div class="col-lg-3 col-6 dashboard-1">
-                    <!-- small box -->
-                    <div class="small-box @data.DataColor">
-                        <div class="inner">
-                            <h3>@data.DataCount</h3>
+                    <a asp-page="/Category/Index" asp-route-state="@data.DataTitle" asp-area="ITrainings">
+                        <!-- small box -->
+                        <div class="small-box @data.DataColor">
+                            <div class="inner">
+                                <h3 style="font-size: 0.72rem;">@data.CategoryCount Category / @data.TrainingCount Training</h3>
 
-                            <p>@data.DataTitle (Participants)</p>
+                                <p>@data.DataTitle (Participants)</p>
+                            </div>
+
                         </div>
-
-                    </div>
+                    </a>
                 </div>
             }
         </div>
