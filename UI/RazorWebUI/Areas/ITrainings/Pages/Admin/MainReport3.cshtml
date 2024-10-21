@@ -1,0 +1,179 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.MainReport3Model
+@{
+}
+
+@{
+    ViewData["Title"] = $"COMPREHENSIVE REPORT FOR IMAM TRAINING";
+
+}
+<style>
+    @@media print {
+        body {
+            -webkit-print-color-adjust: exact;
+        }
+
+        #printableArea {
+            page-break-inside: avoid;
+        }
+
+        table {
+            page-break-inside: auto;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        thead {
+            display: table-header-group;
+        }
+
+        tfoot {
+            display: table-footer-group;
+        }
+
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+
+        td, th {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+
+        .card-header, .table-responsive {
+            page-break-inside: avoid;
+        }
+
+        .keep-together {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+
+        a.btn {
+            display: none; /* Hide buttons on print */
+        }
+
+        .bg-primary {
+            background-color: #007bff !important; /* Ensure this matches your bg-primary color */
+            -webkit-print-color-adjust: exact;
+        }
+    }
+
+    @@media print {
+        /* Hide the comprehensive report header after the first page */
+        .print-only-first-page {
+            display: table-header-group;
+        }
+            /* Ensure the header only shows on the first page */
+            .print-only-first-page + thead {
+                display: none;
+            }
+        /* Ensure the next page-specific theads (Facilitators, Participants) are visible */
+        thead {
+            display: table-header-group;
+        }
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card keep-together">
+
+
+            <div class="card-body">
+                <div class="">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" style="border-top:2px solid black;">
+
+
+ 
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>CATEGORY</th>
+                                        <th>TOTAL FACILITATOR</th>
+                                        <th>TOTAL PARTICIPANT</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @{ int xmsn = 0;}
+                                    @foreach (var item in Model.Datas)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @{xmsn++; }
+                                                @xmsn
+                                            </td>
+                                            <td>@item.Category</td> 
+                                            <td>@item.FacilitatorList</td>
+                                            <td>@item.ParticipantList</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+
+                                    <tr>
+                                        <td colspan="2">
+                                            TOTAL
+                                        </td>
+                                        <td>
+                                            @Model.Datas.Sum(x => x.FacilitatorList)
+                                        </td>
+                                        <td>@Model.Datas.Sum(x => x.ParticipantList)</td>
+                                    </tr>
+
+                                </tfoot>
+                            
+
+
+                        </table>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <a class="btn bg-gradient-primary btn-sm" style="float:right; margin-right: 10px;" onclick="printReport()">Print Report</a>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        string titlex = $"COMPREHENSIVE REPORT FOR IMAM";
+        string mxtitle = titlex.ToUpper();
+    }
+
+    <script>
+        function printSection(sectionId) {
+            var originalContents = document.body.innerHTML;
+            var printContents = document.getElementById(sectionId).innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+            location.reload(); // Reload to restore original contents
+        }
+
+        function printReport() {
+
+            // Save the original title
+            var originalTitle = document.title;
+
+            // Set a new title for printing
+            document.title = mxtitle;
+            ;
+
+            // Trigger the print dialog
+            window.print();
+
+            // Restore the original title after printing
+            document.title = originalTitle;
+        }
+    </script>
+}

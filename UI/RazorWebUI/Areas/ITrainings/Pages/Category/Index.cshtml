@@ -5,7 +5,10 @@
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">MANAGE TRAININGS CATEGORY (@Model.Datas.Count())</h3>
-
+         
+    </div>
+    <div class="card-header">
+         
         @if (User.IsInRole("Admin") || User.IsInRole("mSuperAdmin"))
         {
             <a asp-page="./Add" class="btn bg-gradient-warning btn-sm" style="float:right;">New Training Category</a>
@@ -13,6 +16,7 @@
         <a asp-page="/Admin/Index" class="btn bg-gradient-danger btn-sm" style="float:right;">All Training</a>
         <a asp-page="/Admin/MainReport" class="btn bg-gradient-danger btn-sm" style="float:right;">Comprehensive Report</a>
         <a asp-page="/Admin/MainReport2" class="btn bg-success btn-sm" style="float:right;">Comprehensive Report Only</a>
+        <a asp-page="/Admin/MainReport3" class="btn bg-success btn-sm" style="float:right;">Comprehensive Report By Category</a>
     </div>
 
     @if (Model.State != null)

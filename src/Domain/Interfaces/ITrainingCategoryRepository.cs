@@ -1,4 +1,5 @@
-﻿using Domain.GenericInterface;
+﻿using Domain.DTOs;
+using Domain.GenericInterface;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace Domain.Interfaces
     public interface ITrainingCategoryRepository : IRepository<TrainingCategory>
     {
         Task<IList<TrainingCategory>> GetAll();
+        Task<IList<ParticipantAndFacilitatorByCategoryDto>> GetParticipantFacilitatorByTrainingAll();
     }
 }
