@@ -130,8 +130,9 @@
                                             <td>@item.State</td>
                                             <td> @item.StartDate.ToString("ddd dd MMM, yyyy")</td>
                                             <td> @item.EndDate.ToString("ddd dd MMM, yyyy")</td>
-                                            <td>@item.TrainingFacilitators</td>
+                                            
                                             <td>@item.TrainingParticipants</td>
+                                            <td>@item.TrainingFacilitators</td>
                                         </tr>
                                     }
                                 </tbody>
@@ -141,10 +142,11 @@
                                         <td colspan="4">
                                             TOTAL
                                         </td>
+
+                                        <td>@group.Sum(x => x.TrainingParticipants)</td>
                                         <td>
                                             @group.Sum(x => x.TrainingFacilitators)
                                         </td>
-                                        <td>@group.Sum(x => x.TrainingParticipants)</td>
                                     </tr>
 
                                 </tbody>
