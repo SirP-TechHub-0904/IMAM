@@ -13,7 +13,7 @@ namespace Domain.DTOs
         public AppUser User { get; set; }
         public string PreTestScore {  get; set; } 
         public string PostTestScore {  get; set; }
-
+        public long TrainingId { get; set; }
         public bool PreTestTaken { get; set; }
         public bool PostTestTaken { get; set; }
     }

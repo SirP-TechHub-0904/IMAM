@@ -34,6 +34,8 @@
             {
                 <a class="btn btn-primary" asp-page="./Index" asp-route-activestate="@stateGroup.State" asp-route-id="@Model.TrainingCategory.Id">
                     @stateGroup.State (@stateGroup.Count)
+
+
                 </a>
             }
         </div>
@@ -42,6 +44,8 @@
                 <h3 class="card-title">
                     @Model.StateName STATE
                 </h3>
+                <a asp-page="./StateReportTest" asp-route-id="@Model.TrainingCategory.Id" asp-route-state="@Model.StateName" class="btn bg-gradient-warning btn-sm" style="float:right;">Test Results</a>
+
             </div>
         }
         <!-- /.card-header -->

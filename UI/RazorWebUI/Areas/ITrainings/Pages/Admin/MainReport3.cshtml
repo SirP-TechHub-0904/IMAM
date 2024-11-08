@@ -74,6 +74,12 @@
             display: table-header-group;
         }
     }
+
+     @@media print {
+    .no-print {
+      display: none;
+    }
+  }
 </style>
 
 
@@ -96,6 +102,7 @@
                                         <th>CATEGORY</th>
                                         <th>TOTAL FACILITATOR</th>
                                         <th>TOTAL PARTICIPANT</th>
+                                        <th class="no-print">ACTION</th>
                                     </tr>
                                 </thead>
 
@@ -108,9 +115,14 @@
                                                 @{xmsn++; }
                                                 @xmsn
                                             </td>
-                                            <td>@item.Category</td> 
+                                            <td>@item.Category</td>
                                             <td>@item.FacilitatorList</td>
                                             <td>@item.ParticipantList</td>
+                                            <td class="no-print">
+                                                <a asp-page="./CategoryReportTest" asp-route-id="@item.Id" class="btn btn-primary">
+                                                    Test Report
+                                                </a>
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>

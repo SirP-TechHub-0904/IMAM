@@ -97,7 +97,8 @@ namespace Infrastructure.Repositories
                     PreTestScore = preTestScore,
                     PostTestScore = postTestScore,
                     PostTestTaken = PostTestTaken,
-                    PreTestTaken = PreTestTaken
+                    PreTestTaken = PreTestTaken,
+                    TrainingId = trainingId
                 });
             }
 
