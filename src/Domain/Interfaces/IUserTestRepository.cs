@@ -18,6 +18,6 @@ namespace Domain.Interfaces
         Task<UserTestResultDto> UserTestResult(long trainingId, string userId, int testType);
 
         Task<List<UserTestListDto>> ListUserTestByTrainingId(long trainingId);
-
+        Task<List<UserTestListDto>> ListUserTestByState(string state);
     }
 }

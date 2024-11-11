@@ -33,6 +33,101 @@ namespace Infrastructure.Repositories
             }
             return false;
         }
+        public async Task<List<UserTestListDto>> ListUserTestByState(string state)
+        {
+            var userTests = await _context.UserTests
+                .Include(x => x.User)
+                .Include(x => x.Training)
+                .Include(x => x.TrainingTest).ThenInclude(x => x.TrainingTestOptions)
+                .Where(x => x.Training.State == state && x.Submitted)
+                .ToListAsync();
+
+            var groupedUserTests = userTests.GroupBy(x => x.UserId);
+
+            var userTestListDtos = new List<UserTestListDto>();
+
+            foreach (var group in groupedUserTests)
+            {
+                var userId = group.Key;
+                var user = group.First().User;
+                bool PreTestTaken = true;
+                bool PostTestTaken = true;
+
+                // Get the training ID based on the first test in the group (assuming all tests in the group have the same TrainingId)
+                var trainingId = group.First().TrainingId;
+
+                // Calculate pre-test score
+                var preTests = group.Where(x => x.TrainingTest.TrainingTestType == TrainingTestType.PreTest).ToList();
+                var preTestScore = "";
+                var preTestClass = "danger"; // Default to 'danger'
+                var preTestStatus = "Fail"; // Default to 'Fail'
+                if (preTests.Count > 0)
+                {
+                    var correctPreAnswers = preTests.Count(x => x.Answer != null
+                       && x.TrainingTest?.TrainingTestOptions != null
+                       && x.TrainingTest.TrainingTestOptions.Any(opt => opt.CorrectAnswer == true && opt.Id == x.Answer));
+
+                    double _preTestScore = (double)correctPreAnswers / preTests.Count * 100;
+                    preTestScore = $"{_preTestScore:F0}%";
+
+                    // Set class and status based on score
+                    if (_preTestScore >= 70)
+                    {
+                        preTestClass = "success";
+                        preTestStatus = "Pass";
+                    }
+                }
+                else
+                {
+                    PreTestTaken = false;
+                }
+
+                // Calculate post-test score
+                var postTests = group.Where(x => x.TrainingTest.TrainingTestType == TrainingTestType.PostTest).ToList();
+                var postTestScore = "";
+                var postTestClass = "danger"; // Default to 'danger'
+                var postTestStatus = "Fail"; // Default to 'Fail'
+                double postTestScoreValue = 0.00;
+                if (postTests.Count > 0)
+                {
+                    var correctPostAnswers = postTests.Count(x => x.Answer != null
+                       && x.TrainingTest?.TrainingTestOptions != null
+                       && x.TrainingTest.TrainingTestOptions.Any(opt => opt.CorrectAnswer == true && opt.Id == x.Answer));
+
+                    double _postTestScore = (double)correctPostAnswers / postTests.Count * 100;
+                    postTestScore = $"{_postTestScore:F0}%";
+                    postTestScoreValue = _postTestScore;
+                    // Set class and status based on score
+                    if (_postTestScore >= 70)
+                    {
+                        postTestClass = "success";
+                        postTestStatus = "Pass";
+                    }
+                }
+                else
+                {
+                    PostTestTaken = false;
+                }
+
+                userTestListDtos.Add(new UserTestListDto
+                {
+                    UserId = userId,
+                    User = user,
+                    PreTestScore = preTestScore,
+                    PostTestScore = postTestScore,
+                    PostTestTaken = PostTestTaken,
+                    PreTestTaken = PreTestTaken,
+                    TrainingId = trainingId,
+                    PostTestScoreValue = postTestScoreValue,
+                    PreTestClass = preTestClass, // New column for pre-test class
+                    PreTestStatus = preTestStatus, // New column for pre-test status
+                    PostTestClass = postTestClass, // New column for post-test class
+                    PostTestStatus = postTestStatus // New column for post-test status
+                });
+            }
+
+            return userTestListDtos.OrderByDescending(x => x.PostTestScoreValue).ToList();
+        }
 
         public async Task<List<UserTestListDto>> ListUserTestByTrainingId(long trainingId)
         {
@@ -55,6 +150,8 @@ namespace Infrastructure.Repositories
                 // Calculate pre-test score
                 var preTests = group.Where(x => x.TrainingTest.TrainingTestType == TrainingTestType.PreTest).ToList();
                 var preTestScore = "";
+                var preTestClass = "danger"; // Default to 'danger'
+                var preTestStatus = "Fail"; // Default to 'Fail'
                 if (preTests.Count > 0)
                 {
                     var correctPreAnswers = preTests.Count(x => x.Answer != null
@@ -66,6 +163,12 @@ namespace Infrastructure.Repositories
                     double _preTestScore = (double)correctPreAnswers / preTests.Count * 100;
 
                     preTestScore = $"{_preTestScore:F0}%";
+                    // Set class and status based on score
+                    if (_preTestScore >= 70)
+                    {
+                        preTestClass = "success";
+                        preTestStatus = "Pass";
+                    }
                 }
                 else
                 {
@@ -75,6 +178,9 @@ namespace Infrastructure.Repositories
                 // Calculate post-test score
                 var postTests = group.Where(x => x.TrainingTest.TrainingTestType == TrainingTestType.PostTest).ToList();
                 var postTestScore = "";
+                var postTestClass = "danger"; // Default to 'danger'
+                var postTestStatus = "Fail"; // Default to 'Fail'
+                double postTestScoreValue = 0.00;
                 if (postTests.Count > 0)
                 {
                     var correctPostAnswers = postTests.Count(x => x.Answer != null
@@ -84,6 +190,13 @@ namespace Infrastructure.Repositories
                    double _postTestScore = (double)correctPostAnswers / postTests.Count * 100;
 
                      postTestScore = $"{_postTestScore:F0}%";
+                    postTestScoreValue = _postTestScore;
+                    // Set class and status based on score
+                    if (_postTestScore >= 70)
+                    {
+                        postTestClass = "success";
+                        postTestStatus = "Pass";
+                    }
                 }
                 else
                 {
@@ -98,11 +211,16 @@ namespace Infrastructure.Repositories
                     PostTestScore = postTestScore,
                     PostTestTaken = PostTestTaken,
                     PreTestTaken = PreTestTaken,
-                    TrainingId = trainingId
+                    PostTestScoreValue = postTestScoreValue,
+                    TrainingId = trainingId,
+                    PreTestClass = preTestClass, // New column for pre-test class
+                    PreTestStatus = preTestStatus, // New column for pre-test status
+                    PostTestClass = postTestClass, // New column for post-test class
+                    PostTestStatus = postTestStatus // New column for post-test status
                 });
             }
 
-            return userTestListDtos;
+            return userTestListDtos.OrderByDescending(x=>x.PostTestScoreValue).ToList();
         }
 
 

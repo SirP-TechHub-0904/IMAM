@@ -58,6 +58,8 @@ namespace RazorWebUI.Areas.User.Pages.Admin
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+            Input.NewEmail = Input.NewEmail.Replace(" ", "");
+
             UserData = user;
             var checkemail = await _userManager.FindByEmailAsync(Input.NewEmail);
             if (checkemail == null)
@@ -66,6 +68,7 @@ namespace RazorWebUI.Areas.User.Pages.Admin
                 var cheangeemail = await _userManager.ChangeEmailAsync(user, Input.NewEmail, emailtoken);
                 if (cheangeemail.Succeeded)
                 {
+                    
                     user.UserName = user.Email;
                     await _userManager.UpdateAsync(user);
                     TempData["success"] = "Email updated successful";

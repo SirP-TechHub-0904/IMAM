@@ -47,7 +47,7 @@
                         <tbody>
                             @foreach (var item in Model.UserTest)
                             {
-                                <tr>
+                                <tr class="bg-@item.PostTestClass">
 
                                     <td>
                                         @{
@@ -96,10 +96,10 @@
                                         }
                                         else
                                         {
-                                            <a asp-page="/Account/Result" class="btn btn-primary" asp-route-tid="@item.TrainingId" asp-route-userId="@item.UserId" asp-route-xty="2">
+                                    <a asp-page="/Account/Result" class="btn btn-primary" asp-route-tid="@item.TrainingId" asp-route-userId="@item.UserId" asp-route-xty="2">
 
-                                                @item.PostTestScore
-                                            </a>
+                                        @item.PostTestScore (@Html.DisplayFor(modelItem => item.PostTestStatus))
+                                    </a>
                                         }
                                     </td>
 

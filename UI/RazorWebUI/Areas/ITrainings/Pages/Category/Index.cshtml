@@ -21,10 +21,12 @@
 
     @if (Model.State != null)
     {<div class="card-header">
-            <h3 class="card-title">
-                @Model.State STATE
-            </h3>
-        </div>
+    <h3 class="card-title">
+        @Model.State STATE
+    </h3>
+    <a asp-page="/Admin/GeneralStateReport" asp-route-state="@Model.State" class="btn bg-success btn-sm" style="float:right;">State Test Report</a>
+
+</div>
     }
 
     <!-- /.card-header -->

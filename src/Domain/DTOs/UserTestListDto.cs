@@ -16,5 +16,11 @@ namespace Domain.DTOs
         public long TrainingId { get; set; }
         public bool PreTestTaken { get; set; }
         public bool PostTestTaken { get; set; }
+        public double PostTestScoreValue { get; set; }
+        public string PreTestClass { get; set; } // "success" or "danger"
+        public string PreTestStatus { get; set; } // "Pass" or "Fail"
+
+        public string PostTestClass { get; set; } // "success" or "danger"
+        public string PostTestStatus { get; set; } // "Pass" or "Fail"
     }
 }

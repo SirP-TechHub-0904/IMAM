@@ -1,0 +1,114 @@
+﻿@page
+@model RazorWebUI.Areas.ITrainings.Pages.Admin.GeneralStateReportModel
+@{
+}
+
+@{
+    ViewData["Title"] = $"PRETEST AND POSTTEST FOR {Model.StateName}";
+
+}
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">
+            PRETEST AND POSTTEST FOR @Model.StateName  (@Model.UserTest.Count())
+            </h3>
+
+
+        </div>
+
+        <div class="card-body">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="" class="example-table table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Name</th>
+                                <th>Gender</th>
+                                <th>
+                                    Office
+                                </th>
+
+                                <th>Pre Test Result</th>
+                                <th>Post Test Result</th>
+                                 
+                            </tr>
+                        </thead>
+
+                        @{
+                            int sn = 0;
+                        }
+                        <tbody>
+                            @foreach (var item in Model.UserTest)
+                            {
+                                <tr class="bg-@item.PostTestClass">
+
+                                    <td>
+                                        @{
+                                            sn++;
+                                        }
+                                        @sn
+                                    </td>
+                                    <td>
+                                        @item.User.FullnameX
+
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.User.Gender)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.User.PlaceOfWork)
+                                    </td>
+
+                                    <td>
+                                        @if (item.PreTestTaken == false)
+                                        {
+                                            <a asp-page="/Account/Result" class="btn btn-warning" asp-route-tid="@item.TrainingId" asp-route-userId="@item.UserId" asp-route-xty="0">
+
+                                                <span>Not Taken</span>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-page="/Account/Result" class="btn btn-primary" asp-route-tid="@item.TrainingId" asp-route-userId="@item.UserId" asp-route-xty="0">
+
+                                                @item.PreTestScore  
+                                            </a>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        @if (item.PostTestTaken == false)
+                                        {
+                                            <a asp-page="/Account/Result" class="btn btn-warning" asp-route-tid="@item.TrainingId" asp-route-userId="@item.UserId" asp-route-xty="2">
+
+                                                <span>Not Taken</span>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                    <a asp-page="/Account/Result" class="btn btn-primary" asp-route-tid="@item.TrainingId" asp-route-userId="@item.UserId" asp-route-xty="2">
+
+                                        @item.PostTestScore (@Html.DisplayFor(modelItem => item.PostTestStatus))
+                                    </a>
+                                        }
+                                    </td> 
+                                        
+                                     
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
