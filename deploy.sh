@@ -106,12 +106,14 @@ Description=IMAM ASP.NET Core Razor Pages Web Application
 After=network.target
 
 [Service]
-Type=notify
+Type=simple
 User=$CURRENT_USER
 WorkingDirectory=$APP_DIR
 ExecStart=$APP_DIR/$APP_EXEC
 Restart=always
 RestartSec=10
+TimeoutStartSec=30
+TimeoutStopSec=30
 KillSignal=SIGINT
 SyslogIdentifier=imam-app
 Environment=ASPNETCORE_ENVIRONMENT=Production
@@ -131,10 +133,18 @@ echo ">>> Enabling $SERVICE_NAME to start on system boot..."
 $SUDO systemctl enable "$SERVICE_NAME"
 
 echo ">>> Restarting $SERVICE_NAME..."
-$SUDO systemctl restart "$SERVICE_NAME"
+if ! $SUDO systemctl restart "$SERVICE_NAME"; then
+  echo "=================================================="
+  echo ">>> WARNING: systemctl restart encountered an issue."
+  echo ">>> Service Status:"
+  $SUDO systemctl status "$SERVICE_NAME" --no-pager || true
+  echo ">>> Recent service logs:"
+  $SUDO journalctl -u "$SERVICE_NAME" -n 50 --no-pager || true
+  echo "=================================================="
+fi
 
 # 8. Check health status
-sleep 4
+sleep 3
 if $SUDO systemctl is-active --quiet "$SERVICE_NAME"; then
   echo "=================================================="
   echo ">>> SUCCESS! $SERVICE_NAME is ACTIVE and RUNNING!"
@@ -145,8 +155,11 @@ if $SUDO systemctl is-active --quiet "$SERVICE_NAME"; then
 else
   echo "=================================================="
   echo ">>> ERROR: $SERVICE_NAME failed to start!"
+  echo ">>> Service Status:"
+  $SUDO systemctl status "$SERVICE_NAME" --no-pager || true
   echo ">>> Recent service logs:"
   echo "=================================================="
-  $SUDO journalctl -u "$SERVICE_NAME" -n 35 --no-pager
+  $SUDO journalctl -u "$SERVICE_NAME" -n 50 --no-pager || true
   exit 1
 fi
+
