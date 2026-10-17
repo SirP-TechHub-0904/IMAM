@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34714.143
@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "src\API\API.csproj",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "tests\Test\Test.csproj", "{AAFAEE89-B60C-4488-80B4-A3103BCB581E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RazorWebUI", "UI\RazorWebUI\RazorWebUI.csproj", "{1E32EE24-6322-479D-B73D-5F30899FCA1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMAM.UI", "UI\IMAM.UI\IMAM.UI.csproj", "{1E32EE24-6322-479D-B73D-5F30899FCA1B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostmarkEmailService", "src\PostmarkEmailService\PostmarkEmailService.csproj", "{5E4D7FB2-A87B-45E9-9210-E00215BC24EE}"
 EndProject

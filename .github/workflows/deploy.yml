@@ -1,0 +1,71 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    name: Build and Deploy to Hostinger
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish Self-Contained Web Application
+        run: |
+          dotnet publish UI/IMAM.UI/IMAM.UI.csproj \
+            -c Release \
+            -r linux-x64 \
+            --self-contained true \
+            -p:PublishSingleFile=false \
+            -o ./publish
+
+      - name: Ensure .env is Included in Package
+        run: |
+          if [ -f "UI/IMAM.UI/.env" ]; then
+            cp "UI/IMAM.UI/.env" ./publish/.env
+            echo ">>> Copied UI/IMAM.UI/.env into publish directory"
+          elif [ -f ".env" ]; then
+            cp ".env" ./publish/.env
+            echo ">>> Copied root .env into publish directory"
+          fi
+
+      - name: Copy Deploy Script into Package
+        run: |
+          tr -d '\r' < deploy.sh > ./publish/deploy.sh
+          chmod +x ./publish/deploy.sh
+
+      - name: Package Artifact
+        run: |
+          tar -czf app-package.tar.gz -C ./publish .
+
+      - name: Deploy to Hostinger VPS
+        env:
+          HOST: ${{ secrets.HOSTINGER_SERVER_IP }}
+          USER: ${{ secrets.HOSTINGER_SSH_USER }}
+          KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
+          PORT: ${{ secrets.HOSTINGER_SSH_PORT }}
+        run: |
+          # Setup SSH Directory
+          mkdir -p ~/.ssh
+          echo "$KEY" | tr -d '\r' > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          # SSH Options
+          SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=30"
+
+          echo ">>> Transferring package to Hostinger VPS ($HOST)..."
+          scp $SSH_OPTS -P $PORT app-package.tar.gz $USER@$HOST:/tmp/app-package.tar.gz
+
+          echo ">>> Executing remote deployment script..."
+          ssh $SSH_OPTS -p $PORT $USER@$HOST "tar -xzf /tmp/app-package.tar.gz ./deploy.sh -O > /tmp/deploy.sh && tr -d '\r' < /tmp/deploy.sh > /tmp/deploy_run.sh && chmod +x /tmp/deploy_run.sh && bash /tmp/deploy_run.sh"

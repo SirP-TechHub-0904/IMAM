@@ -101,6 +101,8 @@ namespace Domain.DTOs
         public FacilitatorTrainingStatus FacilitatorTrainingStatus { get; set; }
 
         public string? Reasons { get; set; }
+
+        public string? TrainingInformation { get;set; }
     }
 
 }

@@ -1,0 +1,107 @@
+﻿@page
+@model IMAM.UI.Areas.User.Pages.Admin.FacilitatorsByTrainingModel
+@{
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+            FACILITATORS  ()
+        </h3>
+
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="" class="example-table table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Fullname</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Position</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    @{
+                        int sn = 0;
+                        int xsn = 0;
+                    }
+                    @foreach (var facilitator in Model.Facilitators)
+                    {
+                        <tr>
+                            <td>@(++sn)</td>
+                            <td>
+                                <a asp-page="/Admin/Info" asp-route-area="User" asp-route-id="@facilitator.Id">
+                                    @(facilitator.Fullname ?? "Unknown")
+                                </a>
+                            </td>
+                            <td>@(facilitator.Email ?? "N/A")</td>
+                            <td>@(facilitator.PhoneNumber ?? "N/A")</td>
+                            <td>@(facilitator.Position ?? "N/A")</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td colspan="5">
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Training Name</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (facilitator.Trainings != null && facilitator.Trainings.Any())
+                                        {
+                                            @foreach (var training in facilitator.Trainings)
+                                            {
+                                                <tr>
+                                                    <td>@training</td>
+
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="">No Trainings</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+
+
+
+
+
+
+
+                                @*<strong>Trainings Attended:</strong>
+                                    @if (facilitator.Trainings != null && facilitator.Trainings.Any())
+                                    {
+                                        <ul style="list-style-type:none !important;">
+                                            @foreach (var training in facilitator.Trainings)
+                                            {
+                                                <li>(@(++xsn)) @training</li>
+                                            }
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <span>No Trainings</span>
+                                    }*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
