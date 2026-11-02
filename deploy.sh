@@ -50,20 +50,24 @@ else
     echo ">>> First deploy: .env was moved with the deployment package!"
   else
     echo ">>> First deploy: Initializing default .env configuration..."
-    cat << 'EOF' > "$APP_DIR/.env"
+    if [ -f "$APP_DIR/.env.example" ]; then
+      cp "$APP_DIR/.env.example" "$APP_DIR/.env"
+    else
+      cat << 'EOF' > "$APP_DIR/.env"
 # ASP.NET Core Environment
 ASPNETCORE_ENVIRONMENT=Production
 
 # Database Connection String
-ConnectionStrings__AppConnection="Server=[REDACTED_SERVER_IP],1433;Database=db_aa9f2d_imam;User Id=user_db;Password=[REDACTED_DB_PASSWORD];TrustServerCertificate=True;MultipleActiveResultSets=true;"
+ConnectionStrings__AppConnection="Server=YOUR_DB_HOST,1433;Database=db_imam;User Id=YOUR_DB_USER;Password=YOUR_DB_PASSWORD;TrustServerCertificate=True;MultipleActiveResultSets=true;"
 
 # Postmark Email Service
-PostmarkSettings__ServerToken="[REDACTED_POSTMARK_TOKEN]"
+PostmarkSettings__ServerToken="YOUR_POSTMARK_SERVER_TOKEN"
 
 # AWS Configuration (S3 Storage)
-AwsConfiguration__AWSAccessKey="[REDACTED_AWS_ACCESS_KEY]"
-AwsConfiguration__AWSSecretKey="[REDACTED_AWS_SECRET_KEY]"
+AwsConfiguration__AWSAccessKey="YOUR_AWS_ACCESS_KEY"
+AwsConfiguration__AWSSecretKey="YOUR_AWS_SECRET_KEY"
 EOF
+    fi
   fi
 fi
 
